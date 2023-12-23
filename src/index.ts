@@ -9,7 +9,6 @@ import cors from 'cors';
 import mongoose from 'mongoose';
 import router from './controllers/router/index';
 
-console.log(process.env.MONGO_URL)
 const app = express();
 
 app.use(cors({
