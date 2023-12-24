@@ -7,7 +7,7 @@ import cookieParser from 'cookie-parser';
 import compression from 'compression';
 import cors from 'cors';
 import mongoose from 'mongoose';
-import router from './controllers/router/index';
+import router from './router/index';
 
 const app = express();
 
@@ -16,11 +16,10 @@ app.use(cors({
 }))
 
 app.use(compression());
-app.use(cookieParser()); //TODO
+app.use(cookieParser()); //TODO : check if needed
 app.use(bodyParser.json());
 
 const server = http.createServer(app);
-
 
 server.listen(8080, () => {
     console.log('Server is running on port 8080');
