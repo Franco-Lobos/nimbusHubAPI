@@ -12,7 +12,7 @@ export const login = async(req: express.Request, res: express.Response)=>{
         if(!email || !password){
             return res.sendStatus(400);
         }
-        const user = await getUserByEmail(email).select('+authentication.salt + authentication.password');
+        const user = await getUserByEmail(email).select('+authentication.salt +authentication.password');
 
         if(!user){
             return res.sendStatus(400); //TODO REDIRECT TO SIGN UP
@@ -28,10 +28,9 @@ export const login = async(req: express.Request, res: express.Response)=>{
 
         user.authentication.sessionToken = authentication(salt, user._id.toString());
 
+        await user.save(); 
 
-        await user.save();
-
-        res.cookie(process.env.API_DECODER, user.authentication.sessionToken, {domain:'localhost', path:'/'});
+        res.cookie('NIMBUS-AUTH', user.authentication.sessionToken, {httpOnly: true }); 
         return res.status(200).json(user).end();
 
     } catch(error){
