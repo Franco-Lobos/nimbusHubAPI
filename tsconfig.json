@@ -7,7 +7,7 @@
         "sourceMap": true,
         "noImplicitAny": true
     }, 
-    "include": [
-        "src/**/*"
-    ]
+
+    "include": ["src/**/*","remix.env.d.ts", "**/*.ts", "**/*.tsx"],
+
 }
