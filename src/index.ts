@@ -9,6 +9,9 @@ import cors from 'cors';
 import mongoose from 'mongoose';
 import router from './router/index';
 
+const mongoUrl: string = process.env.MONGO_URL!;
+
+
 const app = express();
 
 app.use(cors({
@@ -27,6 +30,6 @@ server.listen(8080, () => {
 
 
 mongoose.Promise = Promise;
-mongoose.connect(process.env.MONGO_URL);
+mongoose.connect(mongoUrl);
 mongoose.connection.on('error', (error:Error)=>console.log(error));
 app.use('/', router());
