@@ -1,9 +1,10 @@
 import express from 'express';
-import {get, merge} from 'lodash';
+// import {get, merge} from 'lodash';
+import pkg from 'lodash';
 
 import { getUserBySessionToken } from '../db/users';
 
-
+const { get, merge } = pkg;
 export const isOwner = async (req:express.Request, res:express.Response, next: express.NextFunction) => {
     try{
         const {id} = req.params;

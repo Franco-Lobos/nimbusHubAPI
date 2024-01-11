@@ -1,33 +1,51 @@
-import { cssBundleHref } from "@remix-run/css-bundle";
-import type { LinksFunction } from "@remix-run/node";
-import {
-  Links,
-  LiveReload,
-  Meta,
-  Outlet,
-  Scripts,
-  ScrollRestoration,
-} from "@remix-run/react";
+// require('dotenv').config();
 
-export const links: LinksFunction = () => [
-  ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
-];
+import express from 'express';
+import http from 'http';
+import bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
+import compression from 'compression';
+import cors from 'cors';
+import mongoose from 'mongoose';
+import router from '../src/router/index';
 
-export default function App() {
-  return (
-    <html lang="en">
-      <head>
-        <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <Meta />
-        <Links />
-      </head>
-      <body>
-        <Outlet />
-        <ScrollRestoration />
-        <Scripts />
-        <LiveReload />
-      </body>
-    </html>
-  );
-}
+import dotenv from 'dotenv'
+dotenv.config()
+
+const mongoUrl: string = process.env.MONGO_URL!;
+
+const app = express();
+
+app.use(cors({
+    credentials: true,
+}))
+
+app.use(compression());
+app.use(cookieParser()); //TODO : check if needed
+app.use(bodyParser.json());
+
+const server = http.createServer(app);
+
+server.listen(8080, () => {
+    console.log('Server is running on port 8080');
+});
+
+
+mongoose.Promise = Promise;
+mongoose.connect(mongoUrl);
+mongoose.connection.on('error', (error:Error)=>console.log(error));
+app.use('/', router());
+
+// export let loader: any = async () => {
+//   return await Todo.find({});
+// };
+
+// const TodoList = (todos: any) => {
+//   return (
+//     <ul>
+//       {todos.map((todo: any) => (
+//         <li>{todo.title}</li>
+//       ))}
+//     </ul>
+//   );
+// };

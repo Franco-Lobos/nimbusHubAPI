@@ -11,7 +11,6 @@ import router from './router/index';
 
 const mongoUrl: string = process.env.MONGO_URL!;
 
-
 const app = express();
 
 app.use(cors({
